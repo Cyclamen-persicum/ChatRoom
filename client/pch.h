@@ -13,6 +13,6 @@
 #include "WinSock2.h"
 #include "graphics.h"
 
-#define IPAddress "192.168.1.106"
+#define IPAddress "10.41.71.26"
 
 #endif //PCH_H

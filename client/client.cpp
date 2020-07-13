@@ -46,11 +46,16 @@ int main()
     }
     std::cout << "创建socket成功!" << std::endl;
 
+    system("cls");
+    //附加，自选服务器
+    std::string serverIPAddr;
+    std::cout << "请输入服务器地址：";
+    std::cin >> serverIPAddr;
     //3 获取服务器协议地址族
     //包括协议，主机，网络端口
     SOCKADDR_IN serverAddr = { 0 };
     serverAddr.sin_family = AF_INET;
-    serverAddr.sin_addr.S_un.S_addr = inet_addr(IPAddress);
+    serverAddr.sin_addr.S_un.S_addr = inet_addr(serverIPAddr.c_str());
     serverAddr.sin_port = htons(10086);
 
     //4 连接服务器

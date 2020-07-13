@@ -56,11 +56,34 @@ int main()
     }
     std::cout << "创建socket成功!" << std::endl;
 
+    //附加：获取本机ip地址
+    char host[255];
+    if(gethostname(host,sizeof(host))==SOCKET_ERROR)
+    {
+        std::cout<<"无法获取主机名"<<std::endl;
+        return 1;
+    }
+    struct hostent *hostName=gethostbyname(host);
+    if(hostName==0)
+    {
+        std::cout<<"无法获取计算机主机名及IP"<<std::endl;
+        return 1;
+    }
+    struct in_addr in;
+    memcpy(&in,hostName->h_addr_list[3],sizeof(struct in_addr));
+    //char *ipAddress = hostName->h_addr_list[3];
+    /*for(int i=0;hostName->h_addr_list[i]!=0;i++)
+    {
+        struct in_addr in;
+        memcpy(&in,hostName->h_addr_list[i],sizeof(struct in_addr));
+        std::cout<<"第"<<i+1<<"块网卡的IP为:"<<inet_ntoa(in)<<std::endl;
+    }*/
+
     //3 创建协议地址族
     //包括协议，主机，网络端口
     SOCKADDR_IN serverAddr = { 0 };
     serverAddr.sin_family = AF_INET;
-    serverAddr.sin_addr.S_un.S_addr = inet_addr(IPAddress);
+    serverAddr.sin_addr.S_un.S_addr = inet_addr(inet_ntoa(in));
     serverAddr.sin_port = htons(10086);
 
     //4 绑定
